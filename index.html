@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de estudiantes</title>
+  </head>
+  <body>
+    <div
+      id="editableDiv"
+      contenteditable="true"
+      type="number"
+      onclick="paste();"
+    >
+      Paste
+    </div>
+    <script>
+      /*   function handlePaste(e) {
+              var clipboardData, pastedData;
+
+              // Stop data actually being pasted into div
+              e.stopPropagation();
+              e.preventDefault();
+
+              // Get pasted data via clipboard API
+              clipboardData = e.clipboardData || window.clipboardData;
+              pastedData = clipboardData.getData("Text");
+              let rows = pastedData.split("\n");
+              rows.forEach((cells) => {
+                cells = cells.split("\t");
+                cells.forEach((cell) => console.log(cell));
+              });
+              // Do whatever with pasteddata
+              alert(pastedData);
+            }
+
+           */
+      async function permissions() {
+        const queryOpts = {
+          name: "clipboard-read",
+          allowWithoutGesture: false,
+        };
+        const permissionStatus = await navigator.permissions.query(queryOpts);
+        // Will be 'granted', 'denied' or 'prompt':
+        console.log(permissionStatus.state);
+        alert(permissionStatus.state);
+
+        // Listen for changes to the permission state
+        permissionStatus.onchange = () => {
+          console.log(permissionStatus.state);
+          alert(permissionStatus.state);
+        };
+      }
+      permissions();
+      function paste() {
+        navigator.clipboard
+          .readText()
+          .then(
+            (clipText) =>
+              (document.getElementById("editableDiv").innerHTML = clipText)
+          )
+          .catch((e) => console.log(e));
+      }
+    </script>
+  </body>
+</html>
